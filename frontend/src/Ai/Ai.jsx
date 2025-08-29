@@ -17,7 +17,7 @@ const Ai = () => {
     setText("");
 
     try {
-      const res = await fetch("http://localhost:3000/ai/ai_assisant", {
+      const res = await fetch("https://digital-daily-ai.onrender.com/ai/ai_assisant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
