@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as  Routes, Route } from 'react-router-dom';
 import Signupform from './Froms/Signupform';
 import MainBody from './MainBody';
 import LoginForm from './Froms/LoginForm';
@@ -13,7 +13,7 @@ import Ai from './Ai/Ai';
 
 function App() {
   return (
-    <Router>
+    <>
       <Routes>
         <Route path="/" element={<MainBody />} />
         <Route path="/signup" element={<Signupform />} />
@@ -21,7 +21,7 @@ function App() {
         <Route path='/DDPage' element={<DD />} />
         <Route path='/aiassistant' element={<Ai/>}/>
       </Routes>
-    </Router>
+    </>
   )
 }
 
