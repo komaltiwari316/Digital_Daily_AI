@@ -15,7 +15,7 @@ export default function Signupform() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:3000/person/sign_up', {
+      const res = await axios.post('https://digital-daily-ai.onrender.com/person/sign_up', {
         name,
         email,
         password
