@@ -1,7 +1,7 @@
 const aiServices = require("../services/ai.services");
 
 module.exports.getdata = async (req, res) => {
-    console.log('Request body:', req.body);  // Add this for debugging
+    console.log('Request body:', req.body);  
 
     const text = req.body.text;
     if (!text) {

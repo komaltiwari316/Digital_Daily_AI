@@ -1,4 +1,4 @@
-.cartoon-animation {
+/* .cartoon-animation {
   font-size: 40px;
   animation: bounce 1s ease infinite, colorChange 2s ease infinite;
 }
@@ -15,4 +15,129 @@
   50% {color: #0055ff;}
   75% {color: #ff5500;}
   100% {color: #ff0055;}
+}
+
+
+
+.main-body {
+  opacity: 0;
+  animation: fadeIn 1.5s ease-in forwards;
+}
+
+.fade-in-text {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 1.5s ease-out forwards;
+  animation-delay: 0.5s; 
+}
+
+
+.fade-in-buttons {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideUp 1.5s ease-out forwards;
+  animation-delay: 1s; 
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
+
+
+/* 🎉 Cartoon animation */
+.cartoon-animation {
+  font-size: 50px;
+  font-weight: bold;
+  animation: bounce 1s ease infinite, colorChange 2s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-25px); }
+  60% { transform: translateY(-12px); }
+}
+
+@keyframes colorChange {
+  0% { color: #ff0055; }
+  25% { color: #00ff55; }
+  50% { color: #0055ff; }
+  75% { color: #ff5500; }
+  100% { color: #ff0055; }
+}
+
+/* 🌅 Page background fade-in */
+.main-body {
+  opacity: 0;
+  transition: opacity 1.5s ease-in;
+}
+.main-body.loaded {
+  opacity: 1;
+}
+
+/* 📝 Quote text */
+.fade-in-text {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 1.2s ease-out forwards;
+  animation-delay: 0.5s;
+  padding: 20px;
+  font-size: 25px;
+  font-family: 'Georgia', serif;
+  max-width: 800px;
+  line-height: 1.6;
+  color: #0e0c0cff;
+  margin-left: 30px;
+}
+
+/* 🔘 Buttons fade in */
+.fade-in-buttons {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideUp 1.2s ease-out forwards;
+  animation-delay: 1.2s;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Button styling */
+.main-btn {
+  background-color: black;
+  color: white;
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.main-btn:hover {
+  background-color: #444;
+}
+
+/* Keyframes */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

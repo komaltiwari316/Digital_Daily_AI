@@ -14,18 +14,18 @@ function LoginForm() {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:3000/person/login_up', { email, password });
-       console.log("Login Response =>", res.data);
+      console.log("Login Response =>", res.data);
 
       if (res.data.user) {
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      console.log("User stored in localStorage =>", localStorage.getItem("user")); // DEBUG
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        console.log("User stored in localStorage =>", localStorage.getItem("user")); // DEBUG
 
-      window.dispatchEvent(new Event("storage"));
-      toast.success("Login successfully!");
-      setTimeout(() => navigate('/DDPage'), 2000);
-    } else {
-      toast.error("Login failed: no user object received!");
-    }
+        window.dispatchEvent(new Event("storage"));
+        toast.success("Login successfully!");
+        setTimeout(() => navigate('/DDPage'), 2000);
+      } else {
+        toast.error("Login failed: no user object received!");
+      }
     } catch (error) {
       console.log("Error in login", error);
       toast.error("Login failed!");
@@ -96,6 +96,25 @@ function LoginForm() {
           >
             Submit
           </button>
+          <div style={{ textAlign: "center" }}>
+            <hr />
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+                color: "black",
+                padding: "8px 16px",
+                borderRadius: "5px",
+                display: "inline-block",
+                marginTop: "5px",
+              }}
+              // onMouseOver={e => e.currentTarget.style.backgroundColor = "#8fcbdfff"}
+              // onMouseOut={e => e.currentTarget.style.backgroundColor = "#32CD32"}
+            >
+              Back
+            </Link>
+          </div>
+
         </form>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />

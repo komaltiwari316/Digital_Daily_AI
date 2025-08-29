@@ -5,7 +5,6 @@ const Ai = () => {
   const [messages, setMessages] = useState([]);
   const chatEndRef = useRef(null);
 
-  // Auto-scroll to bottom when messages update
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -13,7 +12,7 @@ const Ai = () => {
   async function HandleNotes() {
     if (!text.trim()) return alert("Please type something first!");
 
-    // Add user message to chat
+
     setMessages((prev) => [...prev, { sender: "user", content: text }]);
     setText("");
 

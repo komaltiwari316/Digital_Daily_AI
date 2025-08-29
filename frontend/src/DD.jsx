@@ -13,6 +13,8 @@ function DD() {
   const [noteimages, setnotesimages] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [preview, setpreview] = useState(null);
+  const selectedNote = editIndex !== null ? notes[editIndex] : null;
+
   const [user, setuser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser && storedUser !== "null" && storedUser !== "undefined") {
@@ -30,46 +32,41 @@ function DD() {
   const navigate = useNavigate();
 
   const HandleSave = () => {
-    const content = currentnotes.trim();
-    if (!content) {
-      return;
-    }
-    const previw = content.replace(/<[^>]+>/g, '').slice(0, 15) + "...."; // remove tags for preview
-    const newnotes = { title: previw, content: content };
+  const content = currentnotes.trim();
+  if (!content) {
+    return;
+  }
 
-    const userData = JSON.parse(localStorage.getItem("user"));
-    if (!userData.email) {
-      console.log("user not logged in!");
-      return;
-    }
-    const noteskey = `notes_${userData.email}`;
+  const preview = content.replace(/<[^>]+>/g, '').slice(0, 15) + "....";
+  const newnote = { title: preview, content: content };
 
-    // setNotes((prevnotes) => {
-    //   const updatednotes = [...prevnotes, newnotes];
-    //   localStorage.setItem(noteskey, JSON.stringify(updatednotes));
-    //   return updatednotes;
-    // });
+  const userData = JSON.parse(localStorage.getItem("user"));
+  if (!userData?.email) {
+    console.log("user not logged in!");
+    return;
+  }
 
-    if (editIndex !== null) {
-      // ✏️ Update existing note
-      const updatedNotes = [...notes];
-      updatedNotes[editIndex] = newnotes;
-      setNotes(updatedNotes);
-      localStorage.setItem(noteskey, JSON.stringify(updatedNotes));
-      setEditIndex(null);
-      toast.success("note updated successfully!");
-    } else {
-      // ➕ Add new note
-      const updatedNotes = [...notes, noteimages];
-      setNotes(updatedNotes);
-      localStorage.setItem(noteskey, JSON.stringify(updatedNotes));
-      toast.success("note saved successfully!");
-    }
+  const notesKey = `notes_${userData.email}`;
+  let updatedNotes;
 
-    toast.success("note saved successfully!");
-    setcurrentnotes("");
-    document.getElementById("Ourthoughts").innerHTML = "Start Typing.....";
-  };
+  if (editIndex !== null) {
+    updatedNotes = [...notes];
+    updatedNotes[editIndex] = newnote;
+    setEditIndex(null);
+    toast.success("Note updated successfully!");
+  } else {
+    updatedNotes = [...notes, newnote];
+    toast.success("Note saved successfully!");
+  }
+
+  // 🔥 Save to localStorage also
+  localStorage.setItem(notesKey, JSON.stringify(updatedNotes));
+
+  setNotes(updatedNotes);
+  setcurrentnotes("");
+  document.getElementById("Ourthoughts").innerHTML = "Start Typing.....";
+};
+
 
 
   const handleDelete = (index) => {
@@ -139,11 +136,11 @@ function DD() {
         backgroundAttachment: "fixed",
         display: "flex",
         flexDirection: "column"
-      }}>
-        <nav className="navbar  fixed-top" style={{ backgroundColor: "#acbfceff" }}>
+      }} className='dd-main-body'>
+        <nav className="navbar fixed-top dd-navbar" style={{ backgroundColor: "#acbfceff" }}>
           <div className="container-fluid">
             <a href=""></a>
-            <div className="dropdown" style={{ marginLeft: "-1300px" }}>
+            <div className="dropdown dd-dropdown" style={{ marginLeft: "-1300px" }}>
               <button
                 className="btn btn-black dropdown-toggle"
                 type="button"
@@ -153,7 +150,7 @@ function DD() {
               >
                 😊 Welcome {user?.name || "GUest"}
               </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ backgroundColor: "#afbdc8ff" }}>
+              <ul className="dropdown-menu dd-dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ backgroundColor: "#afbdc8ff" }}>
                 <li><a className="dropdown-item" href="#" onClick={Handlelogout}>Logout</a></li>
               </ul>
             </div>
@@ -166,53 +163,52 @@ function DD() {
                 <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
               </div>
               <div className="offcanvas-body">
-                {notes.map((notes, index) => (
-                  <p
-                    key={index}
-                    style={{ cursor: "pointer", color: "blue" }}
-                    onClick={() => {
-                      // setcurrentnotes({ ...notes, index });
-                      // setshowmodel(true);
-                      setcurrentnotes(notes);
-                      setEditIndex(index);
-                      setshowmodel(true);
-                    }}
-                  >
-                    {notes.title}
-                  </p>
-                ))}
-                {showmodel && (
+                {notes
+                  ?.filter(note => note && note.title)  
+                  .map((note, index) => (
+                    <p
+                      key={index}
+                      style={{ cursor: "pointer", color: "blue" }}
+                      onClick={() => {
+                        setcurrentnotes(note.content);
+                        setEditIndex(index);
+                        setshowmodel(true);
+                      }}
+                    >
+                      {note.title}
+                    </p>
+                  ))}
+
+                {showmodel && editIndex !== null && notes[editIndex] && (
                   <div className="modal-backdrop">
                     <div className="modal-content">
+                      {/* <h2>{selectedNote.title}</h2> */}
                       <h2>{notes[editIndex]?.title}</h2>
                       <div dangerouslySetInnerHTML={{ __html: notes[editIndex]?.content }} />
 
-                      {notes[editIndex]?.image && (
+                      {notes[editIndex].image && (
                         <img
-                          src={notes[editIndex].image}
+                          src={selectedNote.image}
                           alt="Note"
                           style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
                         />
                       )}
 
                       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
-                        {/* ✏️ Edit */}
                         <button
                           style={{ marginRight: "5px", background: "blue", color: "white" }}
                           onClick={() => {
-                            const noteToEdit = notes[editIndex];
-                            setcurrentnotes(noteToEdit.content); // note का content वापस editor में
-                            document.getElementById("Ourthoughts").innerHTML = noteToEdit.content;
+                            setcurrentnotes(selectedNote.content);
+                            document.getElementById("Ourthoughts").innerHTML = selectedNote.content;
                             setshowmodel(false);
                           }}
                         >
                           ✏️ Edit
                         </button>
 
-                        {/* 🗑 Delete */}
                         <button
                           onClick={() => {
-                            handleDelete(editIndex); // index state से delete
+                            handleDelete(editIndex);
                             setshowmodel(false);
                           }}
                           style={{ padding: "5px 10px", background: "#dc3545", color: "white", border: "none", cursor: "pointer" }}
@@ -220,7 +216,6 @@ function DD() {
                           🗑 Delete
                         </button>
 
-                        {/* ✖ Close */}
                         <button
                           onClick={() => setshowmodel(false)}
                           style={{ padding: "5px 10px", background: "#6c757d", color: "white", border: "none", cursor: "pointer" }}
@@ -231,6 +226,7 @@ function DD() {
                     </div>
                   </div>
                 )}
+
 
 
               </div>
@@ -253,11 +249,10 @@ function DD() {
               color: "white"
             }}
             id="Ourthoughts"
-            // onInput={(e) => setcurrentnotes(e.currentTarget.innerText)}
             onInput={(e) => setcurrentnotes(e.currentTarget.innerHTML)}
-          >Start Typing.....</div>
+         className="dd-editor">Start Typing.....</div>
           <button
-            className="btn btn-sm btn-primary"
+            className="btn btn-sm btn-primary dd-save-btn"
             style={{
               marginTop: "10px",
               marginLeft: "auto",
@@ -270,6 +265,7 @@ function DD() {
           <input
             type="file"
             accept="image/*"
+            className="dd-file-input"
             onChange={(e) => {
               const file = e.target.files[0];
               if (file) {
@@ -287,16 +283,17 @@ function DD() {
             style={{
               backgroundColor: "#97c1e6",
               marginLeft: "20px",
-            }}
-          />
+            }} />
           {preview && (
             <img src={preview}
+              className="dd-preview-img"
               alt="Preview"
               style={{ width: "200px", marginTop: "10px", borderRadius: "8px" }} />
           )}
 
           <Link to="/aiassistant">
             <button
+              className="dd-ai-btn"
               style={{
                 width: "55px",
                 height: "55px",
@@ -339,4 +336,5 @@ function DD() {
   )
 }
 export default DD
+
 

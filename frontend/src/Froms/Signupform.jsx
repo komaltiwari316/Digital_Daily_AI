@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -75,14 +76,23 @@ export default function Signupform() {
               cursor: "pointer",
               borderRadius: "1rem",
               border: "none",
-              alignSelf: "center", 
+              alignSelf: "center",
               transition: "all 0.3s ease"
             }}
-            onMouseOver={e => e.currentTarget.style.backgroundColor = "#006400"} 
+            onMouseOver={e => e.currentTarget.style.backgroundColor = "#006400"}
             onMouseOut={e => e.currentTarget.style.backgroundColor = "green"}
           >
             Submit
           </button>
+          <div style={{ textAlign: "center", marginTop: "-40px" }}>
+            <hr style={{ margin: "20px 0", border: "0", borderTop: "1px solid #858181ff" }} />
+            <Link
+              to="/login"
+              style={{ marginLeft: "10px", color: "blue", textDecoration: "underline" }}
+            >
+              Already have an account?
+            </Link>
+          </div>
 
         </form>
       </div>
