@@ -13,7 +13,7 @@ function LoginForm() {
   const HandleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/person/login_up', { email, password });
+      const res = await axios.post('https://digital-daily-ai.onrender.com/person/login_up', { email, password });
       console.log("Login Response =>", res.data);
 
       if (res.data.user) {
