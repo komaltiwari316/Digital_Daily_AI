@@ -13,7 +13,7 @@ import Ai from './Ai/Ai';
 
 function App() {
   return (
-    <>
+    <Router>
       <Routes>
         <Route path="/" element={<MainBody />} />
         <Route path="/signup" element={<Signupform />} />
@@ -21,7 +21,7 @@ function App() {
         <Route path='/DDPage' element={<DD />} />
         <Route path='/aiassistant' element={<Ai/>}/>
       </Routes>
-    </>
+    </Router>
   )
 }
 
