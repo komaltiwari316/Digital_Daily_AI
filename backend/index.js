@@ -12,8 +12,6 @@ app.use(express.json());
 app.use('/person',PersonRoutes);
 app.use('/ai',aiRoutes)
 
-<<<<<<< HEAD
-=======
 const path = require("path");
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
@@ -21,8 +19,6 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
-
->>>>>>> db31428 (Fix: React build serve with Express + refresh issue solved)
 
 app.get('/',(req,res)=>{
     res.send('Hello World!')
