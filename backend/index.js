@@ -11,6 +11,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/person',PersonRoutes);
 app.use('/ai',aiRoutes)
+
+
 app.get('/',(req,res)=>{
     res.send('Hello World!')
 })
